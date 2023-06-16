@@ -15,5 +15,11 @@ Compile with visual studio to get working
 
 Different colors not implemented yet.
 
+![DoublePendulum](https://github.com/yvesb04/DoublePendulum/assets/70809020/a622067d-afc4-4f7d-9f85-b9f90c429977)
+
 
 For questions, yves.bonneau2004@gmail.com
+
+
+
+
