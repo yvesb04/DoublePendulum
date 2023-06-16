@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Shader.h"
+#include <vector>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -20,15 +21,15 @@ void HSVToRGB(float h, float s, float v, float& r, float& g, float& b);
 
 //***VARIABLES****
 //Initial values are assigned to these variables here.
-float theta_1 = 3.0f;
+float theta_1;
 float omega_1 = 0;
-float theta_2 = 0.7;
+float theta_2;
 float omega_2 = 0;
 float m1 = 2;
 float m2 = 2; //masses of pendulums
 float L1 = 1;
 float L2 = 1; //rod lengths
-float g = 9.81; //acceleration due to gravity
+float g = 1; //acceleration due to gravity
 float h = 0.025;
 
 
@@ -102,90 +103,98 @@ int main()
 	// --------------------------------
 	Shader ourShader("res/shader.vert", "res/shader.frag");
 
-	struct Vertex {
-		float position[3];
-		float color[3];
-	};
+	//struct Vertex {
+	//	glm::vec3 position;
+	//	glm::vec3 color(z;
+	//};
 
-	struct Pendulum {
-		Vertex vertices[4] {
-			{{ -0.01f, 0.0f, 0.0f },	{1.0f, 1.0f, 1.0f}}, // First vertex position (x, y, z) and color (r, g, b)
-			{{	0.01f, 0.0f, 0.0f },	{1.0f, 1.0f, 1.0f}}, // Second vertex position (x, y, z) and color (r, g, b)
-			{{  0.01f, 0.4f, 0.0f },	{1.0f, 1.0f, 1.0f}}, // Third vertex position (x, y, z) and color (r, g, b)
-			{{ -0.01f, 0.4f, 0.0f },	{1.0f, 1.0f, 1.0f}}, // Fourth vertex position (x, y, z) and color (r, g, b)
-		};
-		unsigned int indices[6] {
-			0, 1, 2, // First triangle (bottom left - top left - top right)
-			2, 3, 0  // Second triangle (bottom left - top right - bottom right)
-		};
-	};
+	//struct Pendulum {
+	//	Vertex vertices[4] {
+	//		{{ -0.01f, 0.0f, 0.0f },	{1.0f, 1.0f, 1.0f}}, // First vertex position (x, y, z) and color (r, g, b)
+	//		{{	0.01f, 0.0f, 0.0f },	{1.0f, 1.0f, 1.0f}}, // Second vertex position (x, y, z) and color (r, g, b)
+	//		{{  0.01f, 0.4f, 0.0f },	{1.0f, 1.0f, 1.0f}}, // Third vertex position (x, y, z) and color (r, g, b)
+	//		{{ -0.01f, 0.4f, 0.0f },	{1.0f, 1.0f, 1.0f}}, // Fourth vertex position (x, y, z) and color (r, g, b)
 
-	int const numPendulums = 10;
-	Pendulum pendulums[numPendulums]{}; // 4 vertices per rod
+	//	};
+	//	unsigned int indices[6] {
+	//		0, 1, 2, // First triangle (bottom left - top left - top right)
+	//		2, 3, 0  // Second triangle (bottom left - top right - bottom right)
+	//	};
+	//};
+
+ // 4 vertices per rod
 
 	// Fill the vertex data with positions and colors
 	// Each triangle has a slightly different color
 	// Fill the vertex data with positions and colors
 
-	for (int i = 0; i < numPendulums; i++) {
-		float hue = static_cast<float>(i) / numPendulums; // Vary hue from 0.0 to 1.0
-		std::cout << hue << std::endl;
-		// Convert HSV to RGB
-		float r, g, b;
-		float width = 2.0f / numPendulums;
-		HSVToRGB(hue, 1.0f, 1.0f, r, g, b);
+	//for (int i = 0; i < numPendulums; i++) {
+	//	float hue = static_cast<float>(i) / numPendulums; // Vary hue from 0.0 to 1.0
+	//	std::cout << hue << std::endl;
+	//	// Convert HSV to RGB
+	//	float r, g, b;
+	//	float width = 2.0f / numPendulums;
+	//	HSVToRGB(hue, 1.0f, 1.0f, r, g, b);
 
-		// Vertices of the triangle with the same color
-		pendulums[i].vertices[0].
+	//	// Vertices of the triangle with the same color
+	//	float color[3] = { r, g, b };
+	//	pendulums[i].vertices[0].color = color;    // First vertex color (r)
+	//	pendulums[i].vertices[0].color[1] = g;      // First vertex color (g)
+	//	pendulums[i].vertices[0].color[2] = b;      // First vertex color (b)
 
-		vertices[i * 4 + 0].color[0] = r;      // First vertex color (r)
-		vertices[i * 4 + 0].color[1] = g;      // First vertex color (g)
-		vertices[i * 4 + 0].color[2] = b;      // First vertex color (b)
+	//	pendulums[i].vertices[1].color[0] = r;      // Second vertex color (r)
+	//	pendulums[i].vertices[1].color[1] = g;      // Second vertex color (g)
+	//	pendulums[i].vertices[1].color[2] = b;      // Second vertex color (b)
+
+	//	pendulums[i].vertices[2].color[0] = r;      // Third vertex color (r)
+	//	pendulums[i].vertices[2].color[1] = g;      // Third vertex color (g)
+	//	pendulums[i].vertices[2].color[2] = b;      // Third vertex color (b)
+	//	
+	//	pendulums[i].vertices[3].color[0] = r;      // Fourth vertex color (r)
+	//	pendulums[i].vertices[3].color[1] = g;      // Fourth vertex color (g)
+	//	pendulums[i].vertices[3].color[2] = b;      // Fourth vertex color (b)
+
+	//	std::cout << "done!";
+
+	//}
+
+	struct Vertex {
+		glm::vec3 position;
+		glm::vec3 color;
+	};
+
+	struct Pendulum {
+		Vertex vertices[6];
+
+		Pendulum(float yOffset = 0.0f) {
+			vertices[0] = { {-0.003f, 0.0f + yOffset, 0.0f}, {0.965f, 0.9764f, 1.0f} };
+			vertices[1] = { {0.003f, 0.0f + yOffset, 0.0f}, {0.965f, 0.9764f, 1.0f} };
+			vertices[2] = { {0.003f, 0.4f + yOffset, 0.0f}, {0.965f, 0.9764f, 1.0f} };
+			vertices[3] = { {-0.003f, 0.4f + yOffset, 0.0f}, {0.965f, 0.9764f, 1.0f} };
+			vertices[4] = { {-0.003f, 0.0f + yOffset, 0.0f}, {0.965f, 0.9764f, 1.0f} };
+			vertices[5] = { {0.003f, 0.4f + yOffset, 0.0f}, {0.965f, 0.9764f, 1.0f} };
+		}
+
+		float angle = 0.0f;
+	};
 
 
-		vertices[i * 4 + 1].color[0] = r;      // Second vertex color (r)
-		vertices[i * 4 + 1].color[1] = g;      // Second vertex color (g)
-		vertices[i * 4 + 1].color[2] = b;      // Second vertex color (b)
 
+	Pendulum pendulum1;
+	Pendulum pendulum2(-0.4f);
 
-		vertices[i * 4 + 2].color[0] = r;      // Third vertex color (r)
-		vertices[i * 4 + 2].color[1] = g;      // Third vertex color (g)
-		vertices[i * 4 + 2].color[2] = b;      // Third vertex color (b)
+	unsigned int VBO, VAO1, VAO2; /*, EBO */
 
-
-		vertices[i * 4 + 3].color[0] = r;      // Fourth vertex color (r)
-		vertices[i * 4 + 3].color[1] = g;      // Fourth vertex color (g)
-		vertices[i * 4 + 3].color[2] = b;      // Fourth vertex color (b)
-
-		unsigned int baseIndex = i * 4;
-		indices[i * 6] = baseIndex;
-		indices[i * 6 + 1] = baseIndex + 1;
-		indices[i * 6 + 2] = baseIndex + 2;
-		indices[i * 6 + 3] = baseIndex + 2;
-		indices[i * 6 + 4] = baseIndex + 3;
-		indices[i * 6 + 5] = baseIndex;
-
-		std::cout << "done!";
-
-
-	}
-
-
-	unsigned int VBO, VAO, EBO;
-
-	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	glBindVertexArray(VAO); //Bind VAO first, then bind and set VBOs and then configure vertex attributes
-
+	glGenVertexArrays(1, &VAO1);
+	//glGenBuffers(1, &EBO);
+	glBindVertexArray(VAO1); //Bind VAO first, then bind and set VBOs and then configure vertex attributes
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(pendulum1.vertices), pendulum1.vertices, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	// position attribute
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, position)));
 
@@ -193,8 +202,33 @@ int main()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, color)));
 
 
-	ourShader.use();
 
+	glGenBuffers(1, &VBO);
+	glGenVertexArrays(1, &VAO2);
+	glBindVertexArray(VAO2); //Bind VAO first, then bind and set VBOs and then configure vertex attributes
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(pendulum2.vertices), pendulum2.vertices, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, position)));
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, color)));
+
+
+
+	ourShader.use();
+	
+	float thetaa[200][4];
+	int count = 0;
+	for (auto vars : thetaa)
+	{
+		vars[0] = 3.0f + count * 0.000001;
+		vars[1] = 0.7f + count * 0.000001;
+		vars[2] = omega_1;
+		vars[3] = omega_2;
+		count++;
+	}
 
 
 	//Render Loop
@@ -205,48 +239,78 @@ int main()
 
 		glClearColor(0.14f, 0.15f, 0.18f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
-		//Runge-Kutta 4 starts here.
-		k1 = h * f_1(omega_1);
-		l1 = h * g_1(theta_1, theta_2, omega_1, omega_2);
-		p1 = h * f_2(omega_2);
-		q1 = h * g_2(theta_1, theta_2, omega_1, omega_2);
-
-		k2 = h * f_1(omega_1 + (0.5 * l1));
-		l2 = h * g_1(theta_1 + (0.5 * k1), theta_2 + (0.5 * p1), omega_1 + (0.5 * l1), omega_2 + (0.5 * q1));
-		p2 = h * f_2(omega_2 + (0.5 * q1));
-		q2 = h * g_2(theta_1 + (0.5 * k1), theta_2 + (0.5 * p1), omega_1 + (0.5 * l1), omega_2 + (0.5 * q1));
-
-		k3 = h * f_1(omega_1 + (0.5 * l2));
-		l3 = h * g_1(theta_1 + (0.5 * k2), theta_2 + (0.5 * p2), omega_1 + (0.5 * l2), omega_2 + (0.5 * q2));
-		p3 = h * f_2(omega_2 + (0.5 * q2));
-		q3 = h * g_2(theta_1 + (0.5 * k2), theta_2 + (0.5 * p2), omega_1 + (0.5 * l2), omega_2 + (0.5 * q2));
-
-		k4 = h * f_1(omega_1 + l3);
-		l4 = h * g_1(theta_1 + k3, theta_2 + p3, omega_1 + l3, omega_2 + q3);
-		p4 = h * f_2(omega_2 + q3);
-		q4 = h * g_2(theta_1 + k3, theta_2 + p3, omega_1 + l3, omega_2 + q3);
-
-		theta_1 = theta_1 + (k1 + (2 * k2) + (2 * k3) + k4) / 6;
-		omega_1 = omega_1 + (l1 + (2 * l2) + (2 * l3) + l4) / 6;
-		//Below two lines keep the theta_1 in range of -2PI to 2PI.
-		if (theta_1 > 2 * PI) theta_1 = theta_1 - (2 * PI);
-		if (theta_1 < -2 * PI) theta_1 = theta_1 + (2 * PI);
+		for (auto vars: thetaa)
+		{
+			theta_1 = vars[0];
+			theta_2 = vars[1];
+			omega_1 = vars[2];
+			omega_2 = vars[3];
 
 
-		theta_2 = theta_2 + (p1 + (2 * p2) + (2 * p3) + p4) / 6;
-		omega_2 = omega_2 + (q1 + (2 * q2) + (2 * q3) + q4) / 6;
-		//Below two lines keep the theta_2 in range of -2PI to 2PI.
-		if (theta_2 > 2 * PI) theta_2 = theta_2 - (2 * PI);
-		if (theta_2 < -2 * PI) theta_2 = theta_2 + (2 * PI);
+			//Runge-Kutta 4 starts here.
+			k1 = h * f_1(omega_1);
+			l1 = h * g_1(theta_1, theta_2, omega_1, omega_2);
+			p1 = h * f_2(omega_2);
+			q1 = h * g_2(theta_1, theta_2, omega_1, omega_2);
 
-		pendulum1.angle = theta_1 * 180 / PI; //converts theta_1 from radian to degree
+			k2 = h * f_1(omega_1 + (0.5 * l1));
+			l2 = h * g_1(theta_1 + (0.5 * k1), theta_2 + (0.5 * p1), omega_1 + (0.5 * l1), omega_2 + (0.5 * q1));
+			p2 = h * f_2(omega_2 + (0.5 * q1));
+			q2 = h * g_2(theta_1 + (0.5 * k1), theta_2 + (0.5 * p1), omega_1 + (0.5 * l1), omega_2 + (0.5 * q1));
 
-		glBindVertexArray(VAO);
-	
+			k3 = h * f_1(omega_1 + (0.5 * l2));
+			l3 = h * g_1(theta_1 + (0.5 * k2), theta_2 + (0.5 * p2), omega_1 + (0.5 * l2), omega_2 + (0.5 * q2));
+			p3 = h * f_2(omega_2 + (0.5 * q2));
+			q3 = h * g_2(theta_1 + (0.5 * k2), theta_2 + (0.5 * p2), omega_1 + (0.5 * l2), omega_2 + (0.5 * q2));
 
-		glDrawElements(GL_TRIANGLES, numPendulums * 6, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+			k4 = h * f_1(omega_1 + l3);
+			l4 = h * g_1(theta_1 + k3, theta_2 + p3, omega_1 + l3, omega_2 + q3);
+			p4 = h * f_2(omega_2 + q3);
+			q4 = h * g_2(theta_1 + k3, theta_2 + p3, omega_1 + l3, omega_2 + q3);
+
+			theta_1 = theta_1 + (k1 + (2 * k2) + (2 * k3) + k4) / 6;
+			omega_1 = omega_1 + (l1 + (2 * l2) + (2 * l3) + l4) / 6;
+			//Below two lines keep the theta_1 in range of -2PI to 2PI.
+			if (theta_1 > 2 * PI) theta_1 = theta_1 - (2 * PI);
+			if (theta_1 < -2 * PI) theta_1 = theta_1 + (2 * PI);
+
+
+			theta_2 = theta_2 + (p1 + (2 * p2) + (2 * p3) + p4) / 6;
+			omega_2 = omega_2 + (q1 + (2 * q2) + (2 * q3) + q4) / 6;
+			//Below two lines keep the theta_2 in range of -2PI to 2PI.
+			if (theta_2 > 2 * PI) theta_2 = theta_2 - (2 * PI);
+			if (theta_2 < -2 * PI) theta_2 = theta_2 + (2 * PI);
+
+			pendulum1.angle = theta_1 * 180 / PI; //converts theta_1 from radian to degree
+			pendulum2.angle = theta_2 * 180 / PI; //converts theta_2 from radian to degree
+
+			vars[0] = theta_1;
+			vars[1] = theta_2;
+			vars[2] = omega_1;
+			vars[3] = omega_2;
+
+			glm::mat4 trans = glm::mat4(1.0f);
+			trans = glm::rotate(trans, glm::radians(pendulum1.angle), glm::vec3(0.0f, 0.0f, 1.0f));
+			trans = glm::translate(trans, glm::vec3(0.0f, -0.4f, 0.0f));
+			glUniformMatrix4fv(glGetUniformLocation(ourShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(trans));
+
+			glBindVertexArray(VAO1);
+
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+			glBindVertexArray(0);
+
+			glm::mat4 trans2 = glm::mat4(1.0f);
+			trans2 = glm::translate(trans, glm::vec3(0.0f, 0.0f, 0.0f));
+			trans2 = glm::rotate(trans2, glm::radians(pendulum2.angle - pendulum1.angle), glm::vec3(0.0f, 0.0f, 1.0f));
+			glUniformMatrix4fv(glGetUniformLocation(ourShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(trans2));
+
+			glBindVertexArray(VAO2);
+
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+			glBindVertexArray(0);
+		}
+
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
